@@ -1,0 +1,8 @@
+Total Errors (4xx and 5xx): 57
+Unique IP Addresses: 24
+URL Access Counts:
+  /page1: 17
+  /api/data: 22
+  /page2: 18
+  /images/logo.png: 21
+  /page3: 22
