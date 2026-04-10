@@ -14,20 +14,37 @@ def analyze_log_file(filename="access.log"):
 
     try:
         # open the access.log file and read the lines into a list (ideally named log_lines if you want to use the code from the instruction page)
-        pass  #remove this line when you start coding
+        with open(filename, "r") as f:
+            log_lines = f.readlines()
     except FileNotFoundError:
         print(f"Error: Log file '{filename}' not found.")
         return
 
     # set up variables to store the datetime, error count, unique IPs, and URL counts for the log file.
-
+error_count = 0
+unique_ips = set()
+url_counts= {}
     # a.  loop through each line in the log file.  This would be the log_lines list if you opened the log the same way as in the instructions.  
+for line in log_lines:
+
     # b.  inside this loop, first extract the log data using the extract_log_data function or the regular expression given in the instructions.
+   timestamp, ip, url, status_code = extract_log_data(line)
+   # skip invalid lines
+   if not timestamp:
+      continue
     # c.  if the data is extracted successfully, update the error count, unique IPs, and URL counts.
+
     #     - if the ip is not in your unique_ips set, add it to the set.
+   unique_ips.add(ip) 
     #     - if the url is in your url_counts dictionary, increment the count by 1, otherise add the url to the dictionary with a count of 1.
+   if url in url_counts:
+    url_counts[url] += 1
+   else:
+    url_counts[url] = 1
+   
     #     - if the status code is greater than or equal to 400, increment the error count by 1.
-    
+    if status_code.isdigit() and int(statuscode) >= 400:
+       errorcount += 1
 
     # d.  Print out the summary information as shown in the instructions.  It should look like this:
     '''
@@ -40,7 +57,11 @@ def analyze_log_file(filename="access.log"):
         /page3: 28
         /api/data: 16
     '''
-
+   print(f"Total Errors (4xx and 5xx): {error_count}")
+   print(f"Unique IP adresses: {len(unique_ips)}")
+   print("URL Access Counts:")
+   for url, count in url_counts.items():
+      print(f"   {url}: {count}")
 
 def extract_log_data(line):
     #please note that you do not need to edit this function, just the analyze_log_file function above!
